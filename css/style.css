@@ -1,4 +1,4 @@
-/** Logo */
+/** Logo / Nav */
 
 .navbar-brand {
     padding: 5px;
@@ -7,6 +7,12 @@
 .navbar-brand > img {
     max-width: 200px;
 }
+
+.login-btn:hover {
+    cursor: pointer;
+}
+
+/* Page */
 
 .heading {
     margin-bottom: 10vh;
@@ -30,6 +36,7 @@
     animation: blink 0.7s infinite;
 
 }
+
 @keyframes blink{
     0% { opacity:1; }
     50% { opacity:0; }
