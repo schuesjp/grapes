@@ -66,18 +66,18 @@
         </nav>
 
         <!-- Legislation Search -->
-        <section class="intro-section">
+        <section class="intro-section" id="legiSearch">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-offset-3 col-xs-4 text-right">
-                        <input type="text" placeholder="Search Legislation">
+                        <input type="text" v-model="query" placeholder="Search Legislation">
                     </div>
                     <div class="col-xs-2 text-left">
                         <button>Search</button>
                     </div>
                 </div>
-                <div class="row">
-                    
+                <div class="row text-left" v-for="result in searchResult">
+                    <a :href="result.url"><h3> {{ result.title }} </h3></a>
                 </div>
             </div>
         </section>
@@ -88,9 +88,13 @@
         <!-- Bootstrap Core JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        <!-- Scrolling Nav JavaScript -->
-        <script src="js/jquery.easing.min.js"></script>
-        <script src="js/scrolling-nav.js"></script>
+        <!-- Vue 2 Framework -->
+        <script src="https://unpkg.com/vue@2.1.7/dist/vue.js"></script>
+
+        <!-- Main Scripts -->
+        <script src="../js/jquery.easing.min.js"></script>
+        <script src="../js/scrolling-nav.js"></script>
+        <script src="../js/legiSearch.js"></script>
 
     </body>
 

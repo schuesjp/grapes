@@ -6,19 +6,21 @@ $(function() {
             query: "",
             apiKey: "2d28553a502d7fed3b68863b2f592f19",
             searchState: "OH",
-            searchResult: []
+            searchResult: {}
         },
         mounted: function() {
             $.ajax({
                 method: "POST",
-                dataType: "json",
                 url: "../pages/util/search.php",
+                dataType: "json",
                 data: {
-                    state: legiSearch.searchState,
-                    APIkey: legiSearch.apiKey
+                    state: "OH",
+                    key: "2d28553a502d7fed3b68863b2f592f19",
+                    op: "search"
                 },
                 success: function(res) {
-                    // to do
+                    delete res["searchresult"]["summary"];
+                    legiSearch.searchResult = res["searchresult"];
                 },
                 error: function(req, textStatus, err) {
                     console.log(textStatus + ": " + err);
