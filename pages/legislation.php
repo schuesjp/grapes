@@ -73,7 +73,7 @@
                         <input type="text" v-model="query" placeholder="Search Legislation">
                     </div>
                     <div class="col-xs-2 text-left">
-                        <button>Search</button>
+                        <button @click="search">Search</button>
                     </div>
                 </div>
                 <div class="row text-left" v-for="result in searchResult">
