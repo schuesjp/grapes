@@ -36,26 +36,60 @@ if (isset($_POST["login"]) && !empty($_POST["mail"]) && !empty($_POST["pass"])) 
     // Update Accordingly
     if ($result != FALSE && isset($result["username"])) {
         $_SESSION["user"] = $result["username"];
+        /* Redirect */
     } else {
         $error = "Incorrect Username or Password";
     }
 
-} else if (isset($_POST["regsister"]) && !empty($_POST["nmail"]) && !empty($_POST["npass"])) {
+} else if (isset($_POST["register"]) && !empty($_POST["nmail"]) && !empty($_POST["npass"])) {
 
-    /* Registeration requires one more Post var */
+    /* Registeration involves more POST vars */
     $user = $_POST["user"];
+    $fname = $_POST["fname"];
+    $lname = $_POST["lname"];
+    $bday = $_POST["bday"];
+    $zip = $_POST["zip"];
 
-    $rawQuery = "
-        INSERT INTO users
-        VALUES (:user, :mail, MD5(:pass))
+    /* Check Database for Ohio voters */
+    $screenQuery = "
+        SELECT voterID, stateSenateDistrict, stateRepresentativeDistrict from voters
+        WHERE firstName=:fname AND lastName=:lname
+        AND residentZip=:zip AND birthday=:bday
+        LIMIT 1
     ";
 
-    // Run SQL
     $prepQuery = $db->prepare("$rawQuery");
-    $prepQuery->bindParam(":user", $user, PDO::PARAM_STR);
-    $prepQuery->bindParam(":mail", $mail, PDO::PARAM_STR);
-    $prepQuery->bindParam(":pass", $pass, PDO::PARAM_STR);
+    $prepQuery->bindParam(":fname", $fname, PDO::PARAM_STR);
+    $prepQuery->bindParam(":lname", $lname, PDO::PARAM_STR);
+    $prepQuery->bindParam(":zip", $zip, PDO::PARAM_STR);
+    $prepQuery->bindParam(":bday", $bday, PDO::PARAM_STR);
     $prepQuery->execute();
+
+    $res = $prepQuery->fetch(PDO::FETCH_ASSOC);
+
+    if ($res) {
+
+        /* Perform Registration */
+        $rawQuery = "
+            INSERT INTO users
+            VALUES (:user, :mail, MD5(:pass), :id, :senate, :rep)
+        ";
+
+        // Run SQL
+        $prepQuery = $db->prepare("$rawQuery");
+        $prepQuery->bindParam(":user", $user, PDO::PARAM_STR);
+        $prepQuery->bindParam(":mail", $mail, PDO::PARAM_STR);
+        $prepQuery->bindParam(":pass", $pass, PDO::PARAM_STR);
+        $prepQuery->bindParam(":id", $res["voterID"], PDO::PARAM_STR);
+        $prepQuery->bindParam(":senate", $res["stateSenateDistrict"], PDO::PARAM_STR);
+        $prepQuery->bindParam(":rep", $res["stateRepresentativeDistrict"], PDO::PARAM_STR);
+        $prepQuery->execute();
+
+        /* Redirect */
+
+    } else {
+        $error = "You are not an Ohio voter, or you are not in our database.";
+    }
 
 }
 
@@ -155,7 +189,11 @@ closeDB($db);
                                 <p style="color: red"> <?php echo $error; ?> </p>
                                 <form action="" method="POST">
                                     <input class="form-control" type="email" name="mail" placeholder="Email" required autofocus>
-                                    <input class="form-control" type="text" name="user" placeholder="Username" required autofocus>
+                                    <input class="form-control" type="text" name="fname" placeholder="First Name" required>
+                                    <input class="form-control" type="text" name="lname" placeholder="Last Name" required>
+                                    <input class="form-control" type="text" name="zip" placeholder="Your Zip Code" required>
+                                    <input class="form-control" type="date" name="bday" placeholder="Date of Birth (yyyy-mm-dd)" required>
+                                    <input class="form-control" type="text" name="user" placeholder="Username" required>
                                     <input class="form-control" type="password" name="pass" placeholder="Password" required>
                                     <button class="btn btn-default" type="submit" name="register">Sign Up</button>
                                 </form>
