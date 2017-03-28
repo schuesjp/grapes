@@ -1,6 +1,6 @@
 $(function() {
     $(".typedContent").typed({
-        strings: ["Education.", "Discussion.", "Data.", "Decisions.", "Civic Engagement."],
+        strings: ["education.", "discussion.", "data.", "decisions.", "civic engagement."],
         typeSpeed: 0
     });
 });
