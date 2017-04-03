@@ -1,6 +1,8 @@
 $(function() {
     $(".typedContent").typed({
-        strings: ["Education.", "Discussion.", "Data.", "Decisions.", "Civic Engagement."],
-        typeSpeed: 0
+        strings: ["education.", "discussion.", "data.", "decisions.", "civic engagement."],
+        typeSpeed: 50,
+        backDelay: 1000,
+        backSpeed: 10
     });
 });
