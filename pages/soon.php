@@ -11,7 +11,7 @@
         <meta name="keywords" content="">
 
         <!-- Site Title (What shows up in the tab) -->
-        <title>Grapevine | Log In</title>
+        <title>Grapevine | Coming Soon</title>
 
         <!-- Bootstrap & CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
