@@ -22,7 +22,7 @@ if (isset($_POST["login"]) && !empty($_POST["mail"]) && !empty($_POST["pass"])) 
     $rawQuery = "
         SELECT username FROM users
         WHERE email=:mail AND password=MD5(:pass)
-    ";
+";
 
     // Run SQL
     $prepQuery = $db->prepare("$rawQuery");
@@ -41,7 +41,14 @@ if (isset($_POST["login"]) && !empty($_POST["mail"]) && !empty($_POST["pass"])) 
         $error = "Incorrect Username or Password";
     }
 
-} else if (isset($_POST["register"]) && !empty($_POST["nmail"]) && !empty($_POST["npass"])) {
+} else if (isset($_POST["register"])
+    && !empty($_POST["mail"])
+    && !empty($_POST["pass"])
+    && !empty($_POST["fname"])
+    && !empty($_POST["lname"])
+    && !empty($_POST["zip"])
+    && !empty($_POST["bday"])
+    && !empty($_POST["user"])) {
 
     /* Registeration involves more POST vars */
     $user = $_POST["user"];
@@ -58,7 +65,7 @@ if (isset($_POST["login"]) && !empty($_POST["mail"]) && !empty($_POST["pass"])) 
         LIMIT 1
     ";
 
-    $prepQuery = $db->prepare("$rawQuery");
+    $prepQuery = $db->prepare("$screenQuery");
     $prepQuery->bindParam(":fname", $fname, PDO::PARAM_STR);
     $prepQuery->bindParam(":lname", $lname, PDO::PARAM_STR);
     $prepQuery->bindParam(":zip", $zip, PDO::PARAM_STR);
@@ -85,10 +92,12 @@ if (isset($_POST["login"]) && !empty($_POST["mail"]) && !empty($_POST["pass"])) 
         $prepQuery->bindParam(":rep", $res["stateRepresentativeDistrict"], PDO::PARAM_STR);
         $prepQuery->execute();
 
-        /* Redirect */
+        // Redirect
+        header("Location: ./soon.php");
+        exit();
 
     } else {
-        $error = "You are not an Ohio voter, or you are not in our database.";
+        $error = "You are either not a registered Ohio voter or you are not in our database.";
     }
 
 }
@@ -151,6 +160,15 @@ closeDB($db);
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
+                            <a href="legislation.php">Legislation</a>
+                        </li>
+                        <li>
+                            <a href="soon.php">Discussion</a>
+                        </li>
+                        <li>
+                            <a href="soon.php">Voting</a>
+                        </li>
+                        <li>
                             <a class="login-btn" href="../index.html">
                                 <span class="glyphicon glyphicon-home"></span> Home
                             </a>
@@ -188,14 +206,45 @@ closeDB($db);
                             <div id="register" class="tab-pane fade">
                                 <p style="color: red"> <?php echo $error; ?> </p>
                                 <form action="" method="POST">
-                                    <input class="form-control" type="email" name="mail" placeholder="Email" required autofocus>
-                                    <input class="form-control" type="text" name="fname" placeholder="First Name" required>
-                                    <input class="form-control" type="text" name="lname" placeholder="Last Name" required>
-                                    <input class="form-control" type="text" name="zip" placeholder="Your Zip Code" required>
-                                    <input class="form-control" type="date" name="bday" placeholder="Date of Birth (yyyy-mm-dd)" required>
-                                    <input class="form-control" type="text" name="user" placeholder="Username" required>
-                                    <input class="form-control" type="password" name="pass" placeholder="Password" required>
-                                    <button class="btn btn-default" type="submit" name="register">Sign Up</button>
+                                    <div class="row form-entry text-left">
+                                        <div class="col-sm-12">
+                                            <label for="mail">Email</label>
+                                            <input class="form-control" type="email" name="mail" id="mail" placeholder="Enter your email" required autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="row form-entry text-left">
+                                        <div class="col-sm-6">
+                                            <label for="fname">First Name</label>
+                                            <input class="form-control" type="text" name="fname" id="fname" placeholder="e.g. John" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="lname">Last Name</label>
+                                            <input class="form-control" type="text" name="lname" id="lname" placeholder="e.g. Smith" required>
+                                        </div>
+                                    </div>
+                                    <div class="row form-entry text-left">
+                                        <div class="col-sm-3">
+                                            <label for="zip">Zip Code</label>
+                                            <input class="form-control" type="text" name="zip" id="zip" placeholder="5 Digit Zip" required>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <label for="dob">Date of Birth</label>
+                                            <input class="form-control" type="date" name="bday" id="dob" placeholder="yyyy-mm-dd" required>
+                                        </div>
+                                    </div>
+                                    <div class="row form-entry text-left">
+                                        <div class="col-sm-6">
+                                            <label for="username">Username</label>
+                                            <input class="form-control" type="text" name="user" id="username" placeholder="Enter new username" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="password">Password</label>
+                                            <input class="form-control" type="password" name="pass" id="password" placeholder="Create a password" required>
+                                        </div>
+                                    </div>
+                                    <div class="row form-entry">
+                                        <button class="btn btn-default" type="submit" name="register">Sign Up</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

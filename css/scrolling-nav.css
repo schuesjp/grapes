@@ -23,7 +23,7 @@ html {
     min-height: 100%;
     padding-top: 150px;
     text-align: center;
-    background: #eee;
+    background: white;
 }
 
 .contact-section {
@@ -32,6 +32,11 @@ html {
     text-align: center;
     background: #eee;
     padding-bottom: 50px;
+}
+
+.form-entry {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /** Responsive Options */

@@ -54,6 +54,12 @@
                             <a href="#">Legislation</a>
                         </li>
                         <li>
+                            <a href="soon.php">Discussion</a>
+                        </li>
+                        <li>
+                            <a href="soon.php">Voting</a>
+                        </li>
+                        <li>
                             <a class="login-btn" href="../index.html">
                                 <span class="glyphicon glyphicon-home"></span> Home
                             </a>
@@ -66,7 +72,7 @@
         </nav>
 
         <!-- Legislation Search -->
-        <section class="intro-section" id="legiSearch">
+        <section class="about-section" id="legiSearch">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-offset-3 col-xs-4 text-right">
