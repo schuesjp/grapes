@@ -93,7 +93,7 @@ if (isset($_POST["login"]) && !empty($_POST["mail"]) && !empty($_POST["pass"])) 
         $prepQuery->execute();
 
         // Redirect
-        header("Location: ./soon.php");
+        header("Location: ./soon2.php");
         exit();
 
     } else {
